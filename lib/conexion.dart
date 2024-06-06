@@ -110,6 +110,10 @@ class _ConversionAppState extends State<ConversionApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
+                      onPressed: clearHistory,
+                      child: Text('Eliminar Historial'),
+                    ),
+                    ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           double amount = double.parse(pesosController.text);
@@ -118,10 +122,7 @@ class _ConversionAppState extends State<ConversionApp> {
                       },
                       child: Text('Convertir a COP'),
                     ),
-                    ElevatedButton(
-                      onPressed: clearHistory,
-                      child: Text('Eliminar Historial'),
-                    ),
+                    
                   ],
                 ),
               ),
