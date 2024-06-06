@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 class ConversionApp extends StatefulWidget {
   @override
   _ConversionAppState createState() => _ConversionAppState();
@@ -21,7 +22,8 @@ class _ConversionAppState extends State<ConversionApp> {
 
   Future<void> fetchExchangeRates() async {
     final String apiKey = 'eaafd4e8683df38b630200d1';
-    final String apiUrl = 'https://v6.exchangerate-api.com/v6/$apiKey/latest/COP';
+    final String apiUrl =
+        'https://v6.exchangerate-api.com/v6/$apiKey/latest/COP';
 
     final response = await http.get(Uri.parse(apiUrl), headers: {
       'consumer': 'Yurayny Torres Y David Sanchez',
@@ -46,7 +48,8 @@ class _ConversionAppState extends State<ConversionApp> {
     double rate = exchangeRates[selectedCurrency]!;
     double convertedAmount = amount / rate;
     convertedAmount = double.parse(convertedAmount.toStringAsFixed(2));
-    String conversionResult = '$amount $selectedCurrency = $convertedAmount COP';
+    String conversionResult =
+        '$amount $selectedCurrency = $convertedAmount COP';
     setState(() {
       if (conversionHistory.length >= 5) {
         conversionHistory.removeAt(0);
@@ -78,7 +81,8 @@ class _ConversionAppState extends State<ConversionApp> {
               TextFormField(
                 controller: pesosController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Ingrese el valor en moneda extranjera'),
+                decoration: InputDecoration(
+                    labelText: 'Ingrese el valor en moneda extranjera'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingrese un valor';
@@ -100,14 +104,26 @@ class _ConversionAppState extends State<ConversionApp> {
                   );
                 }).toList(),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    double amount = double.parse(pesosController.text);
-                    convertCurrency(amount);
-                  }
-                },
-                child: Text('Convertir a COP'),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          double amount = double.parse(pesosController.text);
+                          convertCurrency(amount);
+                        }
+                      },
+                      child: Text('Convertir a COP'),
+                    ),
+                    ElevatedButton(
+                      onPressed: clearHistory,
+                      child: Text('Eliminar Historial'),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20),
               Align(
@@ -129,10 +145,6 @@ class _ConversionAppState extends State<ConversionApp> {
                     );
                   },
                 ),
-              ),
-              ElevatedButton(
-                onPressed: clearHistory,
-                child: Text('Eliminar Historial'),
               ),
             ],
           ),
